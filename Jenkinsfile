@@ -1,6 +1,10 @@
 pipeline {
     agent any
-        
+    
+    tools {
+        maven 'Maven 3.9.7'
+        git 'Default'
+    }
     environment {
         // Define environment variables
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials-id')
