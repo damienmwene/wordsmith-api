@@ -3,6 +3,7 @@ pipeline {
     
     tools {
         maven 'Apache Maven 3.6.3'
+    }
         
     environment {
         // Define environment variables
