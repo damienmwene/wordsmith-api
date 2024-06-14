@@ -1,20 +1,15 @@
-# Use the official image as a parent image
-FROM node:14
+# Use the official OpenJDK 21 runtime as the base image
+FROM openjdk:21-jdk-slim
 
-# Set the working directory
-WORKDIR /app
+# Set the working directory inside the container
+WORKDIR /app/
 
-# Copy the local files to the container's working directory
-COPY . .
+COPY . /app/
 
-# Install dependencies
-RUN npm install
+RUN Main.java
 
-# Build the application
-RUN npm run build
-
-# Expose the port the app runs on
+# Expose the port your application will run on
 EXPOSE 80
 
 # Run the application
-CMD ["npm", "start"]
+CMD ["java", "Main"]
