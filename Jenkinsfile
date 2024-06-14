@@ -3,7 +3,6 @@ pipeline {
     
     tools {
         maven 'Maven 3.9.7'
-        git 'git v2.25.1'
     }
     environment {
         // Define environment variables
