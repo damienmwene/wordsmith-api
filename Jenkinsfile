@@ -8,8 +8,8 @@ pipeline {
     environment {
         // Define environment variables
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials-id')
-        SONARQUBE_SERVER = 'SonarQube-Server'
-        SONARQUBE_TOKEN = credentials('sonarqube-token-id')
+        SONARQUBE_SERVER = 'sonarserver'
+        SONARQUBE_TOKEN = credentials('sonartoken')
     }
 
     stages {
@@ -20,10 +20,13 @@ pipeline {
         }
 
         stage('Code Analysis') {
+            environment {
+                scannerHome = tool "${SONARSCANNER}"
+            }
             steps {
                 script {
-                    withSonarQubeEnv('SonarQube-Server') {
-                        sh 'mvn sonar:sonar -Dsonar.login=$SONARQUBE_TOKEN'
+                    withSonarQubeEnv("${SONARSERVER}") {
+                        sh '$SONAR_RUNNER_HOME/opt/sonar-scanner -Dsonar.login=$SONARQUBE_TOKEN'
                     }
                 }
             }
