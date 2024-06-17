@@ -1,5 +1,5 @@
 # Use the official Maven image with JDK 17 to build the application
-FROM maven:3.9.7-openjdk-17 AS build
+FROM maven:3.9.7-eclipse-temurin-17-alpine AS build
 
 # Set the working directory inside the container
 WORKDIR /usr/src/app
@@ -11,8 +11,8 @@ COPY src ./src
 # Package the application
 RUN mvn clean package -DskipTests
 
-# Use the official AdoptOpenJDK 17 image to run the application
-FROM adoptopenjdk:17-jre-hotspot
+# Use the official Eclipse Temurin JDK 17 Alpine image to run the application
+FROM eclipse-temurin:17-jre-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
