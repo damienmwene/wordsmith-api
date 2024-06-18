@@ -6,7 +6,7 @@ pipeline {
     }
     
     stages{
-        stage('Maven Build'){
+        stage('Maven Build') {
             steps{
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/damienmwene/wordsmith-api.git']])
                 sh 'mvn clean install'
@@ -14,8 +14,10 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            withSonarQubeEnv() {
-            sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=api-code-analysis -Dsonar.projectName='api-code-analysis'"
+            steps {
+                withSonarQubeEnv() {
+                sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=api-code-analysis -Dsonar.projectName='api-code-analysis'"
+                }
             }
         }
         
