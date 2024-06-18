@@ -14,10 +14,9 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv() {
-                sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=api-code-analysis -Dsonar.projectName='api-code-analysis'"
-                }
+            def scannerHome = tool 'sonarscanner';
+            withSonarQubeEnv() {
+            sh "${scannerHome}/bin/sonar-scanner"
             }
         }
         
