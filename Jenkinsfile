@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools{
-        maven 'maven_3_9_7'
+        maven 'Apache Maven 3.6.3'
     }
     
     stages{
@@ -10,20 +10,6 @@ pipeline {
             steps{
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/damienmwene/wordsmith-api.git']])
                 sh 'mvn clean install'
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    // Define SonarQube scanner home
-                    def scannerHome = tool 'sonarscanner'
-
-                    // Run SonarQube analysis
-                    withSonarQubeEnv('Sonarserver') {
-                        sh "${scannerHome}/bin/sonar-scanner"
-                    }
-                }
             }
         }
         
@@ -41,4 +27,4 @@ pipeline {
             }
         }
     }
-} 
+}
