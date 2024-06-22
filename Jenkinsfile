@@ -2,9 +2,7 @@ pipeline {
     agent any
 
     environment {
-        // Define SonarQube server name as configured in Jenkins
         SONARQUBE_SERVER = 'MySonarQubeServer'
-        // Retrieve the SonarQube token securely from Jenkins credentials
         SONARQUBE_TOKEN = credentials('sonartoken')
     }
 
@@ -16,7 +14,6 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // Using SonarQube Scanner for Jenkins
                     def scannerHome = tool 'SonarQube Scanner';
                     withSonarQubeEnv('MySonarQubeServer') {
                         sh "${scannerHome}/bin/sonar-scanner \
