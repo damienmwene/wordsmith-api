@@ -36,14 +36,14 @@ pipeline {
         stage('Build Docker Image') {
             steps{
                 script{
-                    sh 'docker build -t mwene/wordsmith-api .'
+                    sh 'docker build -t mwene/wordsmith-api:latest .'
                 }
             }
         }
         
         stage('Push to Dockerhub') {
             steps{
-                sh 'docker push mwene/wordsmith-api'
+                sh 'docker push mwene/wordsmith-api:latest'
             }
         }
     }
