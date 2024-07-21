@@ -1,18 +1,27 @@
-FROM maven:3.9.7-eclipse-temurin-17-alpine AS build
+# Use an official Maven image to build the project
+FROM maven:3.9.8-openjdk-17 AS build
 
-WORKDIR /usr/src/app
-
-COPY pom.xml .
-COPY src ./src
-
-RUN mvn clean package -DskipTests
-
-FROM eclipse-temurin:17-jre-alpine
-
+# Set the working directory in the container
 WORKDIR /app
 
-COPY --from=build /usr/src/app/target/*.jar app.jar
+# Copy the pom.xml and src directory into the container
+COPY pom.xml /app/
+COPY src /app/src
+
+# Build the project
+RUN mvn clean package
+
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:17-jdk-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the compiled classes and dependencies from the build stage
+COPY --from=build /app/target/classes /app/classes
+COPY --from=build /app/target/dependency /app/dependency
 
 EXPOSE 80
 
-CMD ["java", "-jar", "app.jar"]
+# Command to run the application
+CMD ["java", "-cp", "/app/classes:/app/dependency/*", "Main"]
