@@ -11,21 +11,6 @@ pipeline {
     }
     
     stages{
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    def scannerHome = tool 'SonarQube Scanner';
-                    withSonarQubeEnv('MySonarQubeServer') {
-                        sh "${scannerHome}/bin/sonar-scanner \
-                            -Dsonar.projectKey=my_project_key \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=http://localhost:9000 \
-                            -Dsonar.login=${SONARQUBE_TOKEN}"
-                    }
-                }
-            }
-        }
-
         stage('Maven Build') {
             steps{
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/damienmwene/wordsmith-api.git']])
